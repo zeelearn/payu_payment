@@ -26,5 +26,19 @@ namespace MVCIntegrationKit.Controllers
             return bl.getdatatablejsondata("pr_getPayments", data, "BPMSconnectionstring");
         }
 
+        [HttpPost]
+        public string GetStateList()
+        {
+            string data = "{'Country_Id':1}";
+            return bl.getdatatablejsondata("pr_GetState", data, "BPMSconnectionstring");
+        }
+
+        [HttpPost]
+        public string GetPaymentNature()
+        {
+            string data = "{'lookup_type':'Payment_Nature'}";
+            return bl.getdatatablejsondata("pr_GetLookup", data, "BPMSconnectionstring");
+        }
+
     }
 }

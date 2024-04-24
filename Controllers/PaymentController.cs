@@ -26,6 +26,86 @@ namespace MVCIntegrationKit.Controllers
             ViewBag.indent = id;
             return View();
         }
+        public ActionResult ZllPayment(string id)
+        {
+
+            ViewBag.indent = id;
+            return View();
+        }
+        [HttpPost]
+        public void ZllPayment(FormCollection form)
+        {
+            try
+            {
+                var identa = form["indent"].ToString();
+
+                var data = "{txn_id :'" + identa + "'}";
+                DataTable dt = obj.GetDataSet("pr_getCustomerPaymentDetails", data, "BPMSconnectionstring").Tables[0];
+                string firstName = dt.Rows[0]["Franchisee_Name"].ToString();
+                string amount = dt.Rows[0]["Indent_Amount"].ToString();
+                string productInfo = dt.Rows[0]["Indent_Type"].ToString();
+                string email = dt.Rows[0]["Email_Id"].ToString();
+                string phone = dt.Rows[0]["Mobile_No"].ToString();
+                string payment_nature = dt.Rows[0]["Payment_Nature"].ToString();
+                string Created_By = dt.Rows[0]["Created_By"].ToString();
+                string Location = dt.Rows[0]["Location"].ToString();
+                string surl = ConfigurationManager.AppSettings["PAYU_zllreturn_URL"].ToString();
+                string furl = ConfigurationManager.AppSettings["PAYU_zllreturn_URL"].ToString();
+                //RemotePost myremotepost = new RemotePost();
+                string key = ConfigurationManager.AppSettings["MERCHANT_KEY"].ToString();
+                string salt = ConfigurationManager.AppSettings["SALT"].ToString();
+                ////posting all the parameters required for integration.
+                //myremotepost.Url = ConfigurationManager.AppSettings["PAYU_BASE_URL"].ToString();
+                //myremotepost.Add("key", key);
+                string txnid = dt.Rows[0]["TXN_ID"].ToString();// Generatetxnid();
+                //myremotepost.Add("txnid", txnid);
+                //myremotepost.Add("amount", amount);
+                //myremotepost.Add("productinfo", productInfo);
+                //myremotepost.Add("firstname", firstName);
+                //myremotepost.Add("phone", phone);
+                //myremotepost.Add("email", email);
+                //myremotepost.Add("surl", surl);//Change the success url here depending upon the port number of your local system.
+                //myremotepost.Add("furl", furl);//Change the failure url here depending upon the port number of your local system.
+                //myremotepost.Add("service_provider", "payu_paisa");
+                //myremotepost.Add("udf1", identa);
+
+                //string hashString = key + "|" + txnid + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + identa + "||||||||||" + salt;
+                //// string hashString = key + "|" + txnid + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + txnid + "|" + txnid + "|" + txnid + "|" + txnid + "|" + txnid + " ||||||" + salt;
+                //string hash = Generatehash512(hashString);
+                //myremotepost.Add("hash", hash);
+                //myremotepost.Post();
+                RemotePost myremotepost = new RemotePost();
+
+                myremotepost.Url = ConfigurationManager.AppSettings["PAYU_BASE_URL"];
+                myremotepost.Add("key", key);
+                myremotepost.Add("txnid", txnid);
+                myremotepost.Add("amount", amount);
+                myremotepost.Add("productinfo", productInfo);
+                myremotepost.Add("firstname", firstName);
+                myremotepost.Add("phone", phone);
+                myremotepost.Add("email", email);
+                myremotepost.Add("surl", ConfigurationManager.AppSettings["PAYU_zllreturn_URL"]);//Change the success url here depending upon the port number of your local system.  
+                myremotepost.Add("furl", ConfigurationManager.AppSettings["PAYU_zllreturn_URL"]);//Change the failure url here depending upon the port number of your local system.  
+                myremotepost.Add("service_provider", "payu_paisa");
+                myremotepost.Add("udf1", payment_nature);
+                myremotepost.Add("udf2", Created_By);
+                myremotepost.Add("udf3", Location);
+                //ConfigurationManager.AppSettings["hashSequence"];//
+                //string hashString = key + "|" + txnid + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + identa + "||||||||||" + salt;
+                string hashString = key + "|" + txnid + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + payment_nature + "|"+ Created_By + "|"+ Location + "||||||||" + salt;
+                string hash = Generatehash512(hashString);
+                myremotepost.Add("hash", hash);
+                myremotepost.Post();
+            }
+            catch (Exception ex)
+            {
+
+
+
+
+            }
+
+        }
 
         [HttpPost]
         public void Payment(FormCollection form)
