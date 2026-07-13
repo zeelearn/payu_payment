@@ -307,6 +307,7 @@ namespace MVCIntegrationKit.Controllers
                 //myremotepost.Url = ConfigurationManager.AppSettings["PAYU_BASE_URL"].ToString();
                 //myremotepost.Add("key", key);
                 string txnid = dt.Rows[0]["TXN_ID"].ToString();// Generatetxnid();
+                string indent_type = dt.Rows[0]["Indent_Type"].ToString();// Generatetxnid();
                 //myremotepost.Add("txnid", txnid);
                 //myremotepost.Add("amount", amount);
                 //myremotepost.Add("productinfo", productInfo);
@@ -339,8 +340,9 @@ namespace MVCIntegrationKit.Controllers
                 myremotepost.Add("udf1", identa);
                 myremotepost.Add("udf2", fran_code);
                 myremotepost.Add("udf3", student_id);
+                myremotepost.Add("udf4", indent_type);
                 //ConfigurationManager.AppSettings["hashSequence"];//
-                string hashString = key + "|" + txnid + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + identa + "|"+ fran_code + "|"+ student_id + "||||||||" + salt;
+                string hashString = key + "|" + txnid + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + identa + "|"+ fran_code + "|"+ student_id + "|"+ indent_type + "|||||||" + salt;
                 string hash = Generatehash512(hashString);
                 UpdateHashCodeZICA(hash, txnid, amount);
                 myremotepost.Add("hash", hash);
@@ -380,6 +382,7 @@ namespace MVCIntegrationKit.Controllers
                 //myremotepost.Url = ConfigurationManager.AppSettings["PAYU_BASE_URL"].ToString();
                 //myremotepost.Add("key", key);
                 string txnid = dt.Rows[0]["TXN_ID"].ToString();// Generatetxnid();
+                string indent_type = dt.Rows[0]["Indent_Type"].ToString();// Generatetxnid();
                 //myremotepost.Add("txnid", txnid);
                 //myremotepost.Add("amount", amount);
                 //myremotepost.Add("productinfo", productInfo);
@@ -412,8 +415,9 @@ namespace MVCIntegrationKit.Controllers
                 myremotepost.Add("udf1", identa);
                 myremotepost.Add("udf2", fran_code);
                 myremotepost.Add("udf3", student_id);
+                myremotepost.Add("udf4", indent_type);
                 //ConfigurationManager.AppSettings["hashSequence"];//
-                string hashString = key + "|" + txnid + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + identa + "|" + fran_code + "|" + student_id + "||||||||" + salt;
+                string hashString = key + "|" + txnid + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + identa + "|" + fran_code + "|" + student_id + "|"+ indent_type + "|||||||" + salt;
                 string hash = Generatehash512(hashString);
                 UpdateHashCodeZIMA(hash, txnid, amount);
                 myremotepost.Add("hash", hash);
@@ -551,7 +555,7 @@ namespace MVCIntegrationKit.Controllers
                 myremotepost.Add("service_provider", "payu_paisa");
                 myremotepost.Add("udf1", indent_id);
                 //ConfigurationManager.AppSettings["hashSequence"];//
-                string hashString = key + "|" + identa + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + "" + "||||||||||" + salt;
+                string hashString = key + "|" + identa + "|" + amount + "|" + productInfo + "|" + firstName + "|" + email + "|" + indent_id + "||||||||||" + salt;
                 string hash = Generatehash512(hashString);
                 myremotepost.Add("hash", hash);
                 myremotepost.Post();
