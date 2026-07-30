@@ -142,6 +142,20 @@ namespace MVCIntegrationKit.Controllers
             }
 
         }
+        //[HttpPost]
+        //public JsonResult UpdateEasebuzzLink(string TXN_ID, string payment_link)
+        //{
+        //    try
+        //    {
+        //        string data = "{'TXN_ID':'" + TXN_ID + "','payment_link':'" + payment_link + "'}";
+        //        obj.SaveJson("pr_UpdatePaymentLink", data, "BPMSconnectionstring");
+        //        return Json(new { Msg = "Link Updated Successfully" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { Msg = "Error" });
+        //    }
+        //}
 
         [HttpPost]
         public void mlzsPayment(FormCollection form)
