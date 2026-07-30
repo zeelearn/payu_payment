@@ -20,6 +20,21 @@ namespace MVCIntegrationKit.Controllers
         }
 
         [HttpPost]
+        public string UpdateEasebuzzLink([FromBody] JObject objdata)
+        {
+            try
+            {
+                string data = objdata.ToString();
+                bl.savejsonobject("pr_UpdatePaymentLink", data, "BPMSconnectionstring");
+                return JsonConvert.SerializeObject(new { Msg = "Link Updated Successfully" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Msg = "Error" });
+            }
+        }
+
+        [HttpPost]
         public string GetPayments([FromBody] JObject objdata)
         {
             string data = objdata == null ? "" : objdata.ToString();
